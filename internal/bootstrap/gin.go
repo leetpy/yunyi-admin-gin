@@ -1,8 +1,13 @@
 package bootstrap
 
-import "github.com/gin-gonic/gin"
+import (
+	"server/internal/router"
+
+	"github.com/gin-gonic/gin"
+)
 
 func InitGin() *gin.Engine {
 	r := gin.Default()
+	router.RegisterRouter(&r.RouterGroup)
 	return r
 }

@@ -7,8 +7,12 @@ import (
 
 type UserDAO struct{}
 
-func (d *UserDAO) FindList(req dto.UserListReq) []model.User {
+func (d *UserDAO) FindList(req dto.UserListReq) []model.UserModel {
 	// db.Where(...).Find(&users)
 	// return users
+	return nil
+}
+
+func (d *UserDAO) FindByUsername(username string) *model.UserModel {
 	return nil
 }

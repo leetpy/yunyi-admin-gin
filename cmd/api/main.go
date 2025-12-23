@@ -1,8 +1,13 @@
 package main
 
-import "server/internal/bootstrap"
+import (
+	"fmt"
+	"server/internal/bootstrap"
+)
 
 func main() {
+	bootstrap.InitConfig()
 	r := bootstrap.InitGin()
-	r.Run(":8080")
+	addr := fmt.Sprintf("%s:%d", bootstrap.AppConfig.App.Host, bootstrap.AppConfig.App.Port)
+	r.Run(addr)
 }

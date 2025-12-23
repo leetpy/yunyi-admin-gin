@@ -1,0 +1,17 @@
+app:
+  host: "0.0.0.0"
+  port: 5001
+
+jwt:
+  signing-key: qmPlus
+  expires-time: 7d
+  buffer-time: 1d
+  issuer: qmPlus
+
+# captcha configuration
+captcha:
+  key-long: 6
+  img-width: 240
+  img-height: 80
+  open-captcha: 0 # 0代表一直开启，大于0代表限制次数
+  open-captcha-timeout: 3600 # open-captcha大于0时才生效
