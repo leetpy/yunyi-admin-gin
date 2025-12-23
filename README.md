@@ -21,3 +21,20 @@
 
 ✔ 不写业务判断
 ✔ 不处理参数合法性
+
+
+# 数据库管理
+
+```bash
+# 生成框架
+migrate create -ext sql -dir migrations -seq init
+
+# 升级
+migrate \
+  -path migrations \
+  -database "mysql://user:pass@tcp(127.0.0.1:3306)/demo?multiStatements=true" \
+  up
+
+# 回滚一版
+migrate -path migrations -database "..." down 1
+```

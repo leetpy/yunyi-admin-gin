@@ -2,6 +2,18 @@ app:
   host: "0.0.0.0"
   port: 5001
 
+database:
+  host: "127.0.0.1"
+  port: "3306"
+  config: "parseTime=true&loc=Asia%2FShanghai"
+  db-name: "yunyi"
+  username: "root"
+  password: "ossdbg1"
+  max-idle-conns: 10
+  max-open-conns: 100
+  log-mode: ""
+  log-zap: false
+
 jwt:
   signing-key: qmPlus
   expires-time: 7d
