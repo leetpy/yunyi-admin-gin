@@ -5,6 +5,11 @@ type UserLoginReq struct {
 	Password string
 }
 
+type UserLoginResp struct {
+	AccessToken  string `json:"access_token"`
+	RefreshToken string `json:"refresh_token"`
+}
+
 type UserListReq struct{}
 
 type CreateUserReq struct {
