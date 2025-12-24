@@ -19,7 +19,7 @@ type DatabaseConfig struct {
 
 func (c *DatabaseConfig) Dsn() string {
 	return fmt.Sprintf(
-		"mysql://%s:%s@tcp(%s:%d)/%s?%s",
+		"%s:%s@tcp(%s:%d)/%s?%s",
 		c.Username,
 		c.Password,
 		c.Host,

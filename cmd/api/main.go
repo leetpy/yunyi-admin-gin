@@ -3,25 +3,16 @@ package main
 import (
 	"fmt"
 	"server/internal/bootstrap"
-
-	"github.com/golang-migrate/migrate/v4"
-	_ "github.com/golang-migrate/migrate/v4/database/mysql"
-	_ "github.com/golang-migrate/migrate/v4/source/file"
 )
 
 func main() {
 	bootstrap.InitConfig()
 
-	dbCfg := bootstrap.AppConfig.Database
-	m, err := migrate.New(
-		"file://migrations",
-		dbCfg.Dsn(),
-	)
-	if err != nil {
+	if err := bootstrap.MigrateDatabase(); err != nil {
 		panic(err)
 	}
 
-	if err := m.Up(); err != nil && err != migrate.ErrNoChange {
+	if err := bootstrap.InitDatabase(); err != nil {
 		panic(err)
 	}
 

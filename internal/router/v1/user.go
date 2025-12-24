@@ -6,7 +6,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 添加用户
-func CreateUser(r *gin.RouterGroup) {
-	r.POST("/user", controller.CreateUser)
+// 注册验证码
+func RegisterUser(r *gin.RouterGroup) {
+	userController := controller.NewUserController()
+
+	// 添加用户
+	r.POST("/user", userController.CreateUser)
 }

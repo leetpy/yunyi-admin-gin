@@ -9,4 +9,5 @@ type UserListReq struct{}
 
 type CreateUserReq struct {
 	Username string `bind:"required"`
+	Password string `bind:"required"`
 }

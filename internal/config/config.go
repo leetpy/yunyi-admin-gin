@@ -5,4 +5,5 @@ type Config struct {
 	Captcha  CaptchaConfig  `mapstructure:"captcha"`
 	Database DatabaseConfig `mapstructure:"database"`
 	Redis    RedisConfig    `mapstructure:"redis"`
+	Zap      ZapConfig      `mapstructure:"zap"`
 }

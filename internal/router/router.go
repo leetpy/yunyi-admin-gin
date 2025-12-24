@@ -9,4 +9,5 @@ import (
 func RegisterRouter(r *gin.RouterGroup) {
 	apiv1 := r.Group("/api/v1")
 	v1.RegisterCaptcha(apiv1)
+	v1.RegisterUser(apiv1)
 }
