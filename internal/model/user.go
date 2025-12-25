@@ -1,6 +1,6 @@
 package model
 
-import "time"
+import "database/sql"
 
 const (
 	USER_STATE_ENABLED = iota
@@ -9,10 +9,10 @@ const (
 
 type UserModel struct {
 	BaseModel
-	Username    string    `gorm:"column:username"`
-	Password    string    `gorm:"column:password"`
-	State       int       `gorm:"column:state"`
-	LastLoginAt time.Time `gorm:"column:last_login_at"`
+	Username    string       `gorm:"column:username"`
+	Password    string       `gorm:"column:password"`
+	State       int          `gorm:"column:state"`
+	LastLoginAt sql.NullTime `gorm:"column:last_login_at"`
 }
 
 func (UserModel) TableName() string {

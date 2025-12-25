@@ -11,7 +11,7 @@ import (
 )
 
 func MigrateDatabase() error {
-	dbCfg := AppConfig.Database
+	dbCfg := infra.AppConfig.Database
 	m, err := migrate.New(
 		"file://migrations",
 		fmt.Sprintf("mysql://%s", dbCfg.Dsn()),
@@ -28,6 +28,6 @@ func MigrateDatabase() error {
 }
 
 func InitDatabase() error {
-	dbCfg := AppConfig.Database
+	dbCfg := infra.AppConfig.Database
 	return infra.InitDB(dbCfg.Dsn())
 }

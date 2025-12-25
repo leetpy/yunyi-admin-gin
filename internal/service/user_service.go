@@ -2,11 +2,13 @@ package service
 
 import (
 	"errors"
+	"fmt"
 	"server/internal/dao"
 	"server/internal/dto"
 	"server/internal/infra"
 	"server/internal/model"
 	"server/internal/pkg/apperror"
+	"server/internal/pkg/token"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
@@ -22,7 +24,7 @@ func NewUserService() *UserService {
 	}
 }
 
-func (s *UserService) Login(req dto.UserLoginReq) (*model.UserModel, error) {
+func (s *UserService) Login(req dto.UserLoginReq) (*dto.UserLoginResp, error) {
 	userInfo, err := s.userDao.FindByUsername(req.Username)
 	if err != nil {
 		return nil, err
@@ -32,11 +34,29 @@ func (s *UserService) Login(req dto.UserLoginReq) (*model.UserModel, error) {
 		return nil, errors.New("用户名或密码错误")
 	}
 
+	// 生成 token
+	jwtCfg := infra.AppConfig.Jwt
+	accessToken, refreshTokne, err := token.GenerateTokenPair(*userInfo, jwtCfg.AccessSignedKey, jwtCfg.RefreshSignedKey)
+	if err != nil {
+		fmt.Println(err.Error())
+		return nil, apperror.New(apperror.BuildTokenErr, "生成token失败")
+	}
+
 	// 更新最后登录时间
-	userInfo.LastLoginAt = time.Now()
+	userInfo.LastLoginAt.Scan(time.Now())
 	go s.userDao.Update(userInfo)
 
-	return userInfo, nil
+	return &dto.UserLoginResp{
+		AccessToken:  accessToken,
+		RefreshToken: refreshTokne,
+		User: struct {
+			Username string `json:"username"`
+			UserId   uint   `json:"user_id"`
+		}{
+			Username: userInfo.Username,
+			UserId:   userInfo.ID,
+		},
+	}, nil
 }
 
 func (s *UserService) GetUserByUsername(username string) (*model.UserModel, error) {
@@ -66,6 +86,8 @@ func (s *UserService) HashPassword(password string) (string, error) {
 
 // 密码比对
 func (s *UserService) CheckPassword(password, hashedPassword string) bool {
+	fmt.Println(password, hashedPassword)
 	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
+	fmt.Println(err)
 	return err == nil
 }

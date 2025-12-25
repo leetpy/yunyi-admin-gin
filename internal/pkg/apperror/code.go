@@ -13,4 +13,6 @@ const (
 	UserNotFound  int = 20001
 	UserExists    int = 20002
 	PasswordWrong int = 20003
+	BuildTokenErr int = 20004
+	LoginFailed   int = 20005
 )

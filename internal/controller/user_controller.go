@@ -2,6 +2,7 @@ package controller
 
 import (
 	"server/internal/dto"
+	"server/internal/pkg/apperror"
 	"server/internal/pkg/response"
 	"server/internal/service"
 
@@ -10,6 +11,7 @@ import (
 
 type UserController struct {
 	userService *service.UserService
+	BaseController
 }
 
 func NewUserController() *UserController {
@@ -18,10 +20,26 @@ func NewUserController() *UserController {
 	}
 }
 
+func (uc *UserController) Login(c *gin.Context) {
+	var req dto.UserLoginReq
+	if err := uc.shouldBindJSON(c, &req); err != nil {
+		response.Fail(c, apperror.New(apperror.InvalidParam, err.Error()))
+		return
+	}
+
+	data, err := uc.userService.Login(req)
+	if err != nil {
+		response.Fail(c, apperror.New(apperror.LoginFailed, err.Error()))
+		return
+	}
+
+	response.Success(c, data)
+}
+
 func (uc *UserController) CreateUser(c *gin.Context) {
 	var req dto.CreateUserReq
-	if err := c.ShouldBindJSON(&req); err != nil {
-		response.Fail(c, err)
+	if err := uc.shouldBindJSON(c, &req); err != nil {
+		response.Fail(c, apperror.New(apperror.InvalidParam, err.Error()))
 		return
 	}
 

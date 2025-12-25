@@ -4,11 +4,10 @@ import (
 	"flag"
 	"fmt"
 	"server/internal/config"
+	"server/internal/infra"
 
 	"github.com/spf13/viper"
 )
-
-var AppConfig *config.Config
 
 func InitConfig() {
 	configFile := getConfigPath()
@@ -25,7 +24,7 @@ func InitConfig() {
 		panic(fmt.Errorf("fatal error unmarshal config: %w", err))
 	}
 
-	AppConfig = &cfg
+	infra.AppConfig = &cfg
 }
 
 func getConfigPath() (config string) {

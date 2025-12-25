@@ -14,11 +14,18 @@ database:
   log-mode: ""
   log-zap: false
 
+# redis configuration
+redis:
+  addr: 127.0.0.1:6379
+  password: "admin@2024"
+  db: 0
+
 jwt:
-  signing-key: qmPlus
+  access-signed-key: X7Y9Z2A4CCC8D0E2F4G6H8I0J224L6M8N0P2Q4R6S8T0U2V4W6X8Y0Z2
+  refresh-signed-key: X7Y9Z2A4B6C8DEE2F4G6H8I7J2K4L6M8N7P2Q4R6S8T7U2V4W6X8Y0Z2
   expires-time: 7d
   buffer-time: 1d
-  issuer: qmPlus
+  issuer: yunyi
 
 # captcha configuration
 captcha:

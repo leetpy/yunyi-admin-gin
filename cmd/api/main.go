@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"server/internal/bootstrap"
+	"server/internal/infra"
 )
 
 func main() {
@@ -16,7 +17,11 @@ func main() {
 		panic(err)
 	}
 
+	if err := bootstrap.InitRds(); err != nil {
+		panic(err)
+	}
+
 	r := bootstrap.InitGin()
-	addr := fmt.Sprintf("%s:%d", bootstrap.AppConfig.App.Host, bootstrap.AppConfig.App.Port)
+	addr := fmt.Sprintf("%s:%d", infra.AppConfig.App.Host, infra.AppConfig.App.Port)
 	r.Run(addr)
 }

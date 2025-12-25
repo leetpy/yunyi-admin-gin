@@ -13,6 +13,7 @@ import (
 
 type CaptchaController struct {
 	captchaService *service.CaptchaService
+	BaseController
 }
 
 func NewCaptchaController() *CaptchaController {

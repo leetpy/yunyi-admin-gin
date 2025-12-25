@@ -6,4 +6,5 @@ type Config struct {
 	Database DatabaseConfig `mapstructure:"database"`
 	Redis    RedisConfig    `mapstructure:"redis"`
 	Zap      ZapConfig      `mapstructure:"zap"`
+	Jwt      JwtConfig      `mapstructure:"jwt"`
 }
