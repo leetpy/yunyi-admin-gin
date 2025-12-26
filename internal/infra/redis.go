@@ -7,10 +7,10 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-var RDS *redis.UniversalClient
+var RDS redis.UniversalClient
 
 func InitRedis(rdsCfg config.RedisConfig) error {
-	RDS := redis.NewClient(&redis.Options{
+	RDS = redis.NewClient(&redis.Options{
 		Addr:     rdsCfg.Addr,
 		Password: rdsCfg.Password,
 		DB:       rdsCfg.DB,

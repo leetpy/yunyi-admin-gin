@@ -8,6 +8,7 @@ const (
 	Forbidden     int = 10003
 	NotFound      int = 10004
 	InternalError int = 10005
+	InvalidToken  int = 10006
 
 	// 用户模块 2xxxx
 	UserNotFound  int = 20001

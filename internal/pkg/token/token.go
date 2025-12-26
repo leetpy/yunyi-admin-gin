@@ -67,7 +67,7 @@ func generateToken(user model.UserModel, tokenType TokenType, expiration time.Du
 // ValidateToken validates the token and returns the claims
 func ValidateToken(tokenString, jwtSecret string) (*TokenClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &TokenClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return jwtSecret, nil
+		return []byte(jwtSecret), nil
 	})
 
 	if err != nil {

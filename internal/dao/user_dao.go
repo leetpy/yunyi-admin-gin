@@ -35,7 +35,7 @@ func (d *UserDAO) CreateUser(req dto.CreateUserReq) (*model.UserModel, error) {
 
 func (d *UserDAO) FindByUsername(username string) (*model.UserModel, error) {
 	var user model.UserModel
-	err := d.db.First(&user).Where("username = ?", username).Error
+	err := d.db.Where("username = ?", username).First(&user).Error
 	return &user, err
 }
 

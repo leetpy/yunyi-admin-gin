@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"server/internal/dao"
@@ -40,6 +41,18 @@ func (s *UserService) Login(req dto.UserLoginReq) (*dto.UserLoginResp, error) {
 	if err != nil {
 		fmt.Println(err.Error())
 		return nil, apperror.New(apperror.BuildTokenErr, "生成token失败")
+	}
+
+	// 将 token 存入 Redis 白名单
+	ctx := context.Background()
+	accessTokenKey := fmt.Sprintf("whitelist:access_token:%s", accessToken)
+	refreshTokenKey := fmt.Sprintf("whitelist:refresh_token:%s", refreshTokne)
+
+	// accessToken 过期时间 24 小时
+	if infra.RDS != nil {
+		infra.RDS.Set(ctx, accessTokenKey, userInfo.ID, time.Hour*24)
+		// refreshToken 过期时间 7 天
+		infra.RDS.Set(ctx, refreshTokenKey, userInfo.ID, time.Hour*24*7)
 	}
 
 	// 更新最后登录时间
@@ -86,8 +99,6 @@ func (s *UserService) HashPassword(password string) (string, error) {
 
 // 密码比对
 func (s *UserService) CheckPassword(password, hashedPassword string) bool {
-	fmt.Println(password, hashedPassword)
 	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
-	fmt.Println(err)
 	return err == nil
 }
